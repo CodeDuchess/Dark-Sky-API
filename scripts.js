@@ -7,7 +7,7 @@ request.open('GET', 'https://api.darksky.net/forecast/9ec3aff31bf59b89c5dd23c932
 request.onload = function () {
   // Begin accessing JSON data here
   }
-}
+
 
 // Send request
 request.send()
