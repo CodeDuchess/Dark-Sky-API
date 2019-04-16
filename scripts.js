@@ -1,47 +1,48 @@
-const app = document.getElementById('root');
+const appKey = "f24f40b1c24505685fce3b8acd0fcffc";
 
-//const logo = document.createElement('img');
-//logo.src = 'logo.png';
+let searchButton = document.getElementById("search-btn");
+let searchInput = document.getElementById("search-txt");
+let cityName = document.getElementById("city-name");
+let icon = document.getElementById("icon");
+let temperature = document.getElementById("temp");
+let humidity = document.getElementById("humidity-div");
 
-const container = document.createElement('div');
-container.setAttribute('class', 'container');
+searchButton.addEventListener("click", findWeatherDetails);
+searchInput.addEventListener("keyup", enterPressed);
 
-
-app.appendChild(container);
-
-var request = new XMLHttpRequest();
-request.open('GET', 'https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/9ec3aff31bf59b89c5dd23c9325ab439/42.3601,-71.0589', true)
-request.onload = function () {
-
-  // Begin accessing JSON data here
-  var data = JSON.parse(this.response);
-  if (request.status >= 200 && request.status < 400) {
-      data(weather => {
-      const card = document.createElement('div');
-      card.setAttribute('class', 'card');
-
-      const h1 = document.createElement('h1');
-      h1.textContent = weather.timezone;
-
-      const h2 = document.createElement('h2');
-      h2.textContent = weather.temperature;              
-        
-      const p = document.createElement('p');
-      p.textContent = weather.summary;
-
-      container.appendChild(card);
-      card.appendChild(h1);
-      card.appendChild(h2);
-      card.appendChild(p);
-    });
-    
-  } else {
-    const errorMessage = document.createElement('marquee');
-    errorMessage.textContent = `Gah, it's not working!`;
-    app.appendChild(errorMessage);
+function enterPressed(event) {
+  if (event.key === "Enter") {
+    findWeatherDetails();
   }
 }
 
-request.send();
+function findWeatherDetails() {
+  if (searchInput.value === "") {
+  
+  }else {
+    let searchLink = "https://api.openweathermap.org/data/2.5/weather?q=" + searchInput.value + "&appid="+appKey;
+   httpRequestAsync(searchLink, theResponse);
+  }
+ }
+
+function theResponse(response) {
+  let jsonObject = JSON.parse(response);
+  cityName.innerHTML = jsonObject.name;
+  icon.src = "http://openweathermap.org/img/w/" + jsonObject.weather[0].icon + ".png";
+  temperature.innerHTML = parseInt(jsonObject.main.temp - 273) + "°";
+  humidity.innerHTML = jsonObject.main.humidity + "%";
+}
+
+function httpRequestAsync(url, callback)
+{
+  console.log("hello");
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = () => { 
+        if (httpRequest.readyState == 4 && httpRequest.status == 200)
+            callback(httpRequest.responseText);
+    }
+    httpRequest.open("GET", url, true); // true for asynchronous 
+    httpRequest.send();
+}
 
 
