@@ -24,10 +24,7 @@ request.onload = function () {
       h1.textContent = weather.timezone;
 
       const h2 = document.createElement('h2');
-      h2.textContent = weather.temperature;  
-        
-      const h3 = document.createElement('h3);
-      h3.textContent = weather.humidity;                                  
+      h2.textContent = weather.temperature;              
         
       const p = document.createElement('p');
       p.textContent = weather.summary;
