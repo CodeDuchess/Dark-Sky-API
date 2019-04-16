@@ -32,7 +32,6 @@ request.onload = function () {
       container.appendChild(card);
       card.appendChild(h1);
       card.appendChild(h2);
-      card.appendChild(h3);
       card.appendChild(p);
     });
     
